@@ -3,21 +3,22 @@
 A suite of explorations of biological systems... for the QBio REU program. (a work in progress!)
 
 Different (populations of) systems to explore:
-* Molecules...
-  * atoms (learning molecular substructures with machine learning?)
-  * DNA systems? 
-  * RNA
-* Cells... 
-  * scRNA data
-  * Cell systems?
-* Tissues... 
-  * Brain activity
-  * Expression, Immune activity...
-* Organs...
-  * ?
-* and Populations
-  * Phylogenetics / virus spread! Not trying to make armchair epidemiologists out of anyone, but making interesting simulations of spread would be intriguing. 
-
+### Molecules
+  1. atoms (learning molecular substructures, e.g. SMILES with natural language models?)
+  2. DNA: origami structures (Shawn Douglas' work)
+  Proteins:
+  3. structural biology/PyRosetta
+  4. Antibody design/exploration
+  5. Synthetic biology (TBD)
+### Cells
+  6. scRNA data
+  7. Stem cell fate engineering
+### Tissues:
+  8. Neuron activity, circuits, neuroscience
+  9. Imaging of some kind + processing?
+### Organs + Human Populations
+  10. Epidemiology (how are respiratory droplets spread? fluid dynamics)
+  11. Mental health (how did it fare during the pandemic?)
 
 Contributors:
 * Mrunali Manjrekar
