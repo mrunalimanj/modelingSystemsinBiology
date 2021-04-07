@@ -1,0 +1,88 @@
+---
+title: "Fitting SIR Models"
+output: html_document
+author: YOUR NAME 
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+  knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+```
+
+> #### Provide responses below: 
+1. Write the frequency-dependent SIR system of equations. Be sure to define the classes (states), rates, and major assumptions
+2. Write the density-dependent SIR system of equations. Be sure to define the classes (states), rates, major assumptions, and interpretation of this model. 
+3. In 1-2 sentences, how do the density and frequency dependent models differ (what do the different assumptions imply about the transmission process)?
+
+Simulating deterministic, continuous time SIR models
+--------------------------------------------------
+First, we will write a function to simulate a continuous time, deterministic SIR model. 
+
+> #### Assignment 1: 
+Add comments to the following code. What is t? y? param? What is this equation doing? What is it returning? What does this function depend on? What needs to be defined? 
+
+```{r sir function}
+sir_function <- function(t, y, param){
+  beta = param["beta"]
+  v = param["v"]
+  gamma = param["gamma"]
+  S = y["S"]; I = y["I"]; R = y["R"]
+  dS = -beta*S*I 
+  dI = beta*S*I - gamma*I
+  dR = gamma*I 
+  return(list(c(dS, dI, dR)))}
+```
+
+Numerically solving SIR models 
+--------------------------------------------------
+We will introduce R code to numerically integrate SIR models. First you will need to load a package called "deSolve". If you have not already installed this package in the past, you will have an error, so make sure you install it before running the following code.
+
+> #### Assignment 2: 
+Add comment to this code below. In particular, note why there is an additional ifelse statement to define beta.divisor. What are the different types of inputs to this function? *use code below to help guide you if needed; remember that `?ifelse` will pull up the help documentation for the function `ifelse`*.
+
+```{r run_sir function}
+library(deSolve)
+
+run_sir_model <- function (beta, gamma, initial.state, max.time, freq.dependent) {
+  
+    beta.divisor <- ifelse(freq.dependent == TRUE, 
+                           initial.state["S"] + initial.state["I"] + initial.state["R"], 
+                            1)
+    
+    param <- c(beta = beta/beta.divisor, gamma = gamma)
+    times <- seq(0, max.time, 1)
+    
+    sir.output <- deSolve::lsoda(initial.state, times, sir_function, param)
+    
+    return(as.data.frame(sir.output))
+}
+```
+
+We can then use this code to numerically integrate an SIR model with fixed parameters. What is $R_0$ in this model? 
+
+```{r test SIR}
+test_output <- run_sir_model(beta = 1, gamma = 0.05,  initial.state = c(S = 500000, I = 1, R = 10000), 
+                             max.time = 365, freq.dependent = TRUE)
+```
+
+We can look at the model output using 'head()' and plot the output. Note we using `NA` in the first `plot` statement to return a blank plot, which we then populate using `lines`.
+
+```{r test plot}
+head(test_output)
+
+N = test_output$S[1] + test_output$I[1] + test_output$R[1] ## total population size
+plot(NA, NA, xlim = c(min(test_output$time), max(test_output$time)), ylim = c(0,N), xlab = 'time', ylab = 'Proportion')
+lines(test_output$time, test_output$S, col = 'blue', lty = 1)
+lines(test_output$time, test_output$I, col = 'red', lty = 1)
+lines(test_output$time, test_output$R, col = 'orange', lty = 1)
+legend('topright', legend = c('S', 'I', 'R'), col = c('blue', 'red', 'orange'), pch = 16)
+```
+
+> #### Assignment 3:
+Run two more simulations labeled: test_output_high_beta (beta = 2) and test_output_low_beta (beta = 0.5) using the different beta values listed. All other parameters and states should be the same as above. Plot the output from these simulations on the same plot (lty = 2, for test_output_high_beta); (lty = 3, for test_output_low_beta). Make sure you are using appropriate axis limits. You may want to truncate the axis (try using `xlim`) for better visualization.
+
+> #### Assignment 4: 
+Describe the how these two epidemics differ. Why would a different beta value result in a different epidemic? [2-3 sentences]
+
+> #### Assignment 5: 
+Suppose there is a pathogen whose transmission can be approximated with an SIR model where beta = 1, gamma = 1/10. There is a new intervention in place that would reduce the transmissibility of the pathogen by half. Assume frequency dependent transmission and the same initial conditions as above (code before Assignment 2). Run two simulations (and plot the results) - one with the intervention and one without. What are the main differences between these two scenarios?  Justify which parameters and/or compartments you changed and why.   
