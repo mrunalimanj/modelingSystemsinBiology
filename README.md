@@ -5,10 +5,9 @@ A suite of explorations of biological systems... for the QBio REU program. (a wo
 Different (populations of) systems to explore:
 ### Molecules
   1. atoms (learning molecular substructures, e.g. SMILES with natural language models?)
-  2. DNA: origami structures (Shawn Douglas' work)
+  2. DNA: origami structures (Shawn Douglas' work)  
   Proteins:
-  3. structural biology/PyRosetta
-  4. Antibody design/exploration
+  3. structural biology/PyRosetta for antibody design/exploration
   5. Synthetic biology (TBD)
 ### Cells
   6. scRNA data
