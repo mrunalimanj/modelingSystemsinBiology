@@ -20,5 +20,5 @@ Different (populations of) systems to explore:
   11. Mental health (how did it fare during the pandemic?)
 
 Contributors:
-* Mrunali Manjrekar
-* tbd :)
+* Mrunali Manjrekar -- @mrunalimanj
+* Isabel Thomas -- @ithomas-8
