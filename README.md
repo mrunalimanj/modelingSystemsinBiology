@@ -1,6 +1,6 @@
 # Modeling systems in biology with computational tools.
 
-A suite of explorations of biological systems... for the QBio REU program. (a work in progress!)
+A suite of explorations of biological systems... maybe for own exploration, maybe for the QBio REU program. (a work in progress!)
 
 Different (populations of) systems to explore:
 ### Molecules
